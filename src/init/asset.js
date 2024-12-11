@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import stageModel from '../models/stage.models.js';
 
 let gameAssets = {};
 
@@ -40,10 +41,15 @@ export const loadGameAssets = async () => {
         ]);
 
         gameAssets = { stages, items, itemUnlocks };
+        // console.log(stages);
+        // stageModel.inputStage(stages);
+        // console.log(stagemodel.AllStage());
+        
+        
         return gameAssets;
     }
     catch (err) {
-        throw new Error("fail");
+        throw new Error(`fail ${err}`);
     }
 
 

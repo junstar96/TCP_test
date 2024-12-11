@@ -1,5 +1,7 @@
 const users = [];
 
+//유저를 추가하면서 점수는 0점으로 잡도록 하자.
+//스코어도 유저에서 관리하도록 하는 게 맞을까?
 export const addUser = (user) =>{
     users.push(user);
 }

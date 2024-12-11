@@ -16,6 +16,6 @@ export const registerHandler = (io) => {
 
         socket.on("event", (data)=>handleEvent(io,socket,data));
 
-        socket.io('disconnect', (socket)=>handleDisconnect(socket,userUUID));
+        socket.on('disconnection', (socket)=>handleDisconnect(socket,userUUID));
     })
 }

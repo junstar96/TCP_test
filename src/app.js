@@ -15,21 +15,9 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+//정적 서빙
+app.use(express.static('clientFile'));
 initSocket(server); // 소켓 추가
-
-app.get('/', (req, res) => {
-  // try
-  // {
-  //   res.sendFile(__dirname, "public", "index.html");
-  // }
-  // catch(err)
-  // {
-  //   return res.status(404).json({error : "뭔가 문제"});
-  // }
-  
-  res.send('<h1>Hello World</h1>');
-});
-
 
 
 server.listen(PORT, async () => {
@@ -38,9 +26,7 @@ server.listen(PORT, async () => {
   //서버가 실행된 다음에 파일을 읽는다.
   try
   {
-    //게임에 필요한 데이터 에셋을 받아오는 상황
     const assets = await loadGameAssets();
-    //console.log(assets['stages'].data);
   }
   catch(err)
   {
