@@ -4,17 +4,22 @@ class Score {
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
   stageChange = true;
+  currentStage = 1;
+  scoreRate = 1;
+  nextStageLimit = 10;
+  nextStage = 1001;
 
   constructor(ctx, scaleRatio) {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.scaleRatio = scaleRatio;
+    //this.scoreTable = getGameAssets()['items'].data;
   }
   
   update(deltaTime) {
-    this.score += deltaTime * 0.001;
+    this.score += deltaTime * 0.001 * this.scoreRate;
     // 점수가 100점 이상이 될 시 서버에 메세지 전송
-    if (Math.floor(this.score) === 10 && this.stageChange) {
+    if (Math.floor(this.score) === this.nextStageLimit && this.stageChange) {
       this.stageChange = false;
       sendEvent(11, { currentStage: 1000, targetStage: 1001 });
     }
@@ -23,6 +28,7 @@ class Score {
   //아이템을 얻었을 때 발동한다.
   //id를 받는 것이기에 곧장 아이디를 보내는 것도 방법으로 보인다.
   getItem(itemId) {
+    console.log(this.scoreTable);
     
 
     this.score += 10 * itemId;
@@ -33,6 +39,7 @@ class Score {
     this.score = 0;
   }
 
+  //게임이 끝났을 때 하이스코어인지 아닌지 확인한다.
   setHighScore() {
     const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
     if (this.score > highScore) {

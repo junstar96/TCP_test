@@ -8,6 +8,9 @@ class ItemController {
 
     nextInterval = null;
     items = [];
+    //아이템 리스트를 가질 수 있도록 한다.
+    //이 아이템 리스트 내에서 아이템이 생성되도록 한다.
+    currentItemList = [1];
 
 
     constructor(ctx, itemImages, scaleRatio, speed) {
@@ -31,8 +34,9 @@ class ItemController {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+    //현재 인벤토리 current에 있는 것만 생성하게 바꾼다.
     createItem() {
-        const index = this.getRandomNumber(0, this.itemImages.length - 1);
+        const index = this.getRandomNumber(0, this.currentItemList.length - 1);
         const itemInfo = this.itemImages[index];
         const x = this.canvas.width * 1.5;
         const y = this.getRandomNumber(
@@ -76,7 +80,6 @@ class ItemController {
     //충돌되었을 때 아이템의 id를 반환한다?
     collideWith(sprite) {
         const collidedItem = this.items.find(item => item.collideWith(sprite))
-        console.log(this.items);
         if (collidedItem) {
             this.ctx.clearRect(collidedItem.x, collidedItem.y, collidedItem.width, collidedItem.height)
             return {
@@ -85,8 +88,16 @@ class ItemController {
         }
     }
 
+    //충돌 시에 아이템이 지워진다.
+    removeItem(itemid)
+    {
+        console.log("아이템이 지워짐")
+        this.items.splice(itemid, 1);
+    }
+
     reset() {
         this.items = [];
+        
     }
 }
 

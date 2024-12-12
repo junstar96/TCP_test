@@ -6,5 +6,4 @@ export const handlerMappings = {
     2 : gameStart,
     3 : gameEnd,
     11 : moveStageHandler,
-    
 }

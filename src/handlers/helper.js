@@ -4,10 +4,11 @@ import stageModel from "../models/stage.models.js";
 import { getUser, removeUser } from "../models/user.models.js"
 import { handlerMappings } from "./handlerMappings.js";
 
-export const handleDisconnect = (socket,uuid)=>{
+//핸들이 연결해제되었음을 확인하기
+export const handleDisconnect = (socket,uuid = "",text = "just finished")=>{
     removeUser(socket.id);
     console.log(socket.id,getUser());
-    socket.emit('disconnection', {status : "success"});
+    socket.emit('disconnection', {status : "success", text});
 }
 
 
@@ -23,7 +24,7 @@ export const handleConnection = (socket,uuid) =>{
     stageModel.createStage(uuid);
     //stageModel.setStage(uuid, stages.data[0].id);
     // console.log('stage : ', stageModel.getStage(uuid));
-    socket.emit('connection', {uuid});
+    socket.emit('connection', {uuid, payload : getGameAssets()});
 
 }
 
@@ -52,6 +53,7 @@ export const handleEvent = (io, socket, data) => {
     const response = handler(data.userId, data.payload);
     if(response.broadcast)
     {
+        //여긴 브로드캐스팅을 보내는 함수
         io.emit('response', 'broadcast');
         return;
     }

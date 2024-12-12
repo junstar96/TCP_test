@@ -107,6 +107,7 @@ function createSprites() {
 
   itemController = new ItemController(ctx, itemImages, scaleRatio, GROUND_SPEED);
 
+  //스코어가 만들어질 텐데
   score = new Score(ctx, scaleRatio);
 }
 
@@ -226,6 +227,7 @@ function gameLoop(currentTime) {
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);
+    itemController.removeItem(collideWithItem.itemId);
   }
 
   // draw
@@ -251,3 +253,5 @@ function gameLoop(currentTime) {
 requestAnimationFrame(gameLoop);
 
 window.addEventListener('keyup', reset, { once: true });
+
+export default {score,itemController};

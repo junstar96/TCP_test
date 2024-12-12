@@ -2,6 +2,7 @@ import { getGameAssets } from "../init/asset.js"
 import stageModels from "../models/stage.models.js";
 import stageModel from "../models/stage.models.js"
 
+//게임 정보가 릿세이 될 때마다 여기가 호출된다.
 export const gameStart = (uuid, payload) => {
     const {stages} = getGameAssets();
     stageModel.createStage(uuid);
@@ -45,7 +46,7 @@ export const gameEnd = (uuid, payload) => {
     {
         return {status : "fail", message : "score fail"};
     }
-    return {status : 'success', message : "game End", score}
+    return {status : 'success', payload : {message : "nothing"}};
 }
 
 //아이템을 받아오는 물건
