@@ -254,4 +254,4 @@ requestAnimationFrame(gameLoop);
 
 window.addEventListener('keyup', reset, { once: true });
 
-export default {score,itemController};
+export {score,itemController};

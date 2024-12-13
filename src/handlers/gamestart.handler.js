@@ -1,6 +1,7 @@
 import { getGameAssets } from "../init/asset.js"
 import stageModels from "../models/stage.models.js";
 import stageModel from "../models/stage.models.js"
+import { getUser } from "../models/user.models.js";
 
 //게임 정보가 릿세이 될 때마다 여기가 호출된다.
 export const gameStart = (uuid, payload) => {
@@ -8,7 +9,12 @@ export const gameStart = (uuid, payload) => {
     stageModel.createStage(uuid);
     stageModel.setStage(uuid, stages.data[0].id, payload.timestamp);
     console.log("게임 시작 확인", stageModel.getStage(uuid));
-    return {status : 'success'}
+
+    //const user = getUser();
+
+
+
+    return {status : 'success', id : 101, payload : {message : "성공"}}
 }
 
 export const gameEnd = (uuid, payload) => {
@@ -46,7 +52,7 @@ export const gameEnd = (uuid, payload) => {
     {
         return {status : "fail", message : "score fail"};
     }
-    return {status : 'success', payload : {message : "nothing"}};
+    return {status : 'success', id : 102, payload : {message : "nothing"}};
 }
 
 //아이템을 받아오는 물건

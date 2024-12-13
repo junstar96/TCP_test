@@ -11,11 +11,17 @@ let userId = null;
 socket.on('response', (data) => {
   console.log("responce");
   console.log(data);
+  if(typeof data.id !== 'undefined')
+  {
+    const responseHandler = handlerMappings[data.id];
+    const response = responseHandler(data.payload);
+  }
+
 });
 
 socket.on('connection', (data) => {
-  console.log('connection: ', data);
-  console.log("시작시에 전송됨")
+  // console.log('connection: ', data);
+  // console.log("시작시에 전송됨")
   userId = data.uuid;
 });
 
@@ -40,7 +46,7 @@ socket.on('event', (data) => {
       return;   
     }
 
-    console.log("확인");
+    //console.log("확인");
     // if(!data['payload'])
     // {
     //   console.log("데이터 없음");

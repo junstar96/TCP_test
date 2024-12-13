@@ -1,7 +1,7 @@
 import { CLIENT_VERSION } from "../constant.js";
 import { getGameAssets } from "../init/asset.js";
 import stageModel from "../models/stage.models.js";
-import { getUser, removeUser } from "../models/user.models.js"
+import { getUser, RankOneScore, removeUser } from "../models/user.models.js"
 import { handlerMappings } from "./handlerMappings.js";
 
 //핸들이 연결해제되었음을 확인하기
@@ -54,7 +54,7 @@ export const handleEvent = (io, socket, data) => {
     if(response.broadcast)
     {
         //여긴 브로드캐스팅을 보내는 함수
-        io.emit('response', 'broadcast');
+        io.emit('response', {id : 2, payload : {score : RankOneScore()}});
         return;
     }
 

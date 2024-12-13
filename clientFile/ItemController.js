@@ -92,7 +92,8 @@ class ItemController {
     removeItem(itemid)
     {
         console.log("아이템이 지워짐")
-        this.items.splice(itemid, 1);
+        let index = this.items.find((item)=>item.id === itemid);
+        this.items.splice(index, 1);
     }
 
     reset() {

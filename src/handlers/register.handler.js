@@ -13,13 +13,6 @@ export const registerHandler = (io) => {
         //최초 커넥션이 맺어진 이후 계속 여기서 돌아간다.
         const userUUID = uuidv4();
         
-        // let requestedClientVersion = socket.handshake.query.clientVersion;
-        // //버전 확인
-        // if(!CLIENT_VERSION.includes(requestedClientVersion))
-        // {
-        //     handleDisconnect(socket,userUUID,"different Version")
-        // }
-        
         addUser({uuid : userUUID, socketID : socket.id, score : 0});
         handleConnection(socket, userUUID);
 
