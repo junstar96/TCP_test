@@ -1,5 +1,6 @@
 import { CLIENT_VERSION } from './Constants.js';
 import { handlerMappings } from './handler/clientMapping.js'
+import {score} from './index.js'
 
 const socket = io('http://localhost:3000', {
   query: {
@@ -13,6 +14,7 @@ socket.on('response', (data) => {
   console.log(data);
   if(typeof data.id !== 'undefined')
   {
+    console.log("리스폰 확인")
     const responseHandler = handlerMappings[data.id];
     const response = responseHandler(data.payload);
   }
@@ -20,8 +22,9 @@ socket.on('response', (data) => {
 });
 
 socket.on('connection', (data) => {
-  // console.log('connection: ', data);
-  // console.log("시작시에 전송됨")
+  console.log('connection: ', data);
+  console.log("시작시에 전송됨")
+  
   userId = data.uuid;
 });
 
@@ -37,6 +40,7 @@ socket.on('event', (data) => {
 
   if(data.status==='success')
   {
+    console.log(data);
     //data에 아이디를 보내고 그걸로 맵핑한다.
     const handler = handlerMappings[data.id];
 
@@ -46,19 +50,13 @@ socket.on('event', (data) => {
       return;   
     }
 
-    //console.log("확인");
-    // if(!data['payload'])
-    // {
-    //   console.log("데이터 없음");
-    // }
-    // else
-    // {
-    //   console.log(data['payload'])
-    // }
-
     if(data.payload)
     {
       const response = handler(data.payload);
+    }
+    else
+    {
+      console.log("payload 없음", data.id);
     }
     
 
@@ -66,6 +64,7 @@ socket.on('event', (data) => {
   }
   else
   {
+    
     console.log("이벤트 연결 실패");
   }
   //const handler = handlerMappings[data]

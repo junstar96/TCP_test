@@ -1,13 +1,13 @@
 import { CLIENT_VERSION } from "../constant.js";
 import { getGameAssets } from "../init/asset.js";
 import stageModel from "../models/stage.models.js";
-import { getUser, RankOneScore, removeUser } from "../models/user.models.js"
+import { addUser, getUser, RankOneScore, removeUser } from "../models/user.models.js"
 import { handlerMappings } from "./handlerMappings.js";
 
 //핸들이 연결해제되었음을 확인하기
 export const handleDisconnect = (socket,uuid = "",text = "just finished")=>{
-    removeUser(socket.id);
-    console.log(socket.id,getUser());
+    removeUser(uuid);
+    //console.log(socket.id,getUser());
     socket.emit('disconnection', {status : "success", text});
 }
 
@@ -15,16 +15,17 @@ export const handleDisconnect = (socket,uuid = "",text = "just finished")=>{
 //스테이지에 따라서 더 높은 점수 획득
 //시작할 때 테이블을 등록하기
 export const handleConnection = (socket,uuid) =>{
-    console.log(`connected : ${uuid}`);
-    console.log(`current user : `, getUser());
+    //console.log(`connected : ${uuid}`);
+    //console.log(`current user : `, getUser());
 
     const {stages} = getGameAssets();
     //stage 배열에서 0번째 = 첫 번째 스테이지
     // console.log(stages);
     stageModel.createStage(uuid);
+    //addUser(uuid);
     //stageModel.setStage(uuid, stages.data[0].id);
     // console.log('stage : ', stageModel.getStage(uuid));
-    socket.emit('connection', {uuid, payload : getGameAssets()});
+    socket.emit('connection', {uuid, payload : {source : getGameAssets(), rank : RankOneScore()} });
 
 }
 
@@ -51,6 +52,15 @@ export const handleEvent = (io, socket, data) => {
 
     //실행된 결과를 반환한다.
     const response = handler(data.userId, data.payload);
+
+    console.log(response.id);
+
+    // if(response.id === 101 && response.broadcast)
+    // {
+    //     console.log("브로드체크")
+    //     io.emit('event', {status : 'success', id : 0, payload : {score : RankOneScore()}});
+    // }
+
     if(response.broadcast)
     {
         //여긴 브로드캐스팅을 보내는 함수

@@ -17,6 +17,16 @@ class Score {
     this.scaleRatio = scaleRatio;
     //this.scoreTable = getGameAssets()['items'].data;
   }
+
+  set HIGHSCORE(value)
+  {
+    this.high_score = value;
+  }
+
+  get HIGHSCORE()
+  {
+    return this.high_score;
+  }
   
   update(deltaTime) {
     this.timeStamp += deltaTime * 0.001;
@@ -45,10 +55,14 @@ class Score {
   setHighScore(score = 0) {
     //여기는 로컬 정보에 기록되는 것. 
     //브라우저에 저장하는 방식이니까 이걸 접근해 보는 방식으로 접근해 보도록 하자.
-    const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
-    if (this.score > highScore) {
+    //localstorage가 아니라 랭킹을 가지고 있도록.
+    //this.high_score
+    //const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
+    if (this.score > this.high_score) {
       //최대값이 갱신되었을 때만 점수 갱신이 되도록 해보자.
-      localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
+      //localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
+      this.high_score = Math.floor(this.score);
+      sendEvent(12, { score : this.high_score });
     }
   }
 
@@ -57,7 +71,7 @@ class Score {
   }
 
   draw() {
-    const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
+    const highScore = Number(this.high_score);
     const y = 20 * this.scaleRatio;
 
     const fontSize = 20 * this.scaleRatio;

@@ -4,8 +4,9 @@ const createStage = (uuid) => {
     stages[uuid] = [];
 }
 
-const inputStage = (payload) => {
-    stages = payload;
+//uuid 수정하도록
+const inputStage = (uuid,payload) => {
+    stages[uuid] = payload;
 }
 
 const getStage = (uuid) => {

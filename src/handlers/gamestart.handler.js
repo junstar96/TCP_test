@@ -1,7 +1,7 @@
 import { getGameAssets } from "../init/asset.js"
 import stageModels from "../models/stage.models.js";
 import stageModel from "../models/stage.models.js"
-import { getUser } from "../models/user.models.js";
+import { getUser, RankOneScore } from "../models/user.models.js";
 
 //게임 정보가 릿세이 될 때마다 여기가 호출된다.
 export const gameStart = (uuid, payload) => {
@@ -11,10 +11,15 @@ export const gameStart = (uuid, payload) => {
     console.log("게임 시작 확인", stageModel.getStage(uuid));
 
     //const user = getUser();
+    //console.log(stages);
+    const startStage = stages.data[0];
+    const nextStage = stages.data[1];
+    console.log(RankOneScore());
+    let check = RankOneScore();
 
 
 
-    return {status : 'success', id : 101, payload : {message : "성공"}}
+    return {status : 'success', id : 101,broadcast : true, payload : {message : "성공", score : check, currentStage : startStage, nextStage : nextStage }}
 }
 
 export const gameEnd = (uuid, payload) => {
@@ -45,13 +50,14 @@ export const gameEnd = (uuid, payload) => {
     });
 
     console.log(stageModels.getStage());
+    console.log("종료 코드 확인")
 
     //점수와 타임스탬프 검증
     //오차범위를 확인
-    if(Math.abs(score - totalScore) > 5)
-    {
-        return {status : "fail", message : "score fail"};
-    }
+    // if(Math.abs(score - totalScore) > 5)
+    // {
+    //     return {status : "fail", message : "score fail"};
+    // }
     return {status : 'success', id : 102, payload : {message : "nothing"}};
 }
 

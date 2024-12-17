@@ -11,6 +11,7 @@ export const StageChange = (payload) => {
     score.currentStage = payload.stage;
     score.nextStage = payload.nextStage;
     score.scoreRate = payload.scoreRate;
+    console.log(score.scoreRate);
     console.log(score.currentStage, ":", score.nextStage);
     score.stageChange = true;
     //아이템의 테이블을 또 변경해 보도록 하자.
@@ -22,5 +23,5 @@ export const StageChange = (payload) => {
 
 //전체 랭킹 가운데 최고 값을 받아오도록 하자.
 export const GetWorldRank = (payload) => {
-    //
+    score.HIGHSCORE = payload.score > score.HIGHSCORE ? payload.score : score.HIGHSCORE;
 }

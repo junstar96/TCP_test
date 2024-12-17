@@ -13,7 +13,7 @@ export const registerHandler = (io) => {
         //최초 커넥션이 맺어진 이후 계속 여기서 돌아간다.
         const userUUID = uuidv4();
         
-        addUser({uuid : userUUID, socketID : socket.id, score : 0});
+        addUser({id : userUUID, socketID : socket.id, score : 0});
         handleConnection(socket, userUUID);
 
         socket.on("event", (data)=>handleEvent(io,socket,data));

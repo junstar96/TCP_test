@@ -169,6 +169,7 @@ function reset() {
   score.reset();
   gameSpeed = GAME_SPEED_START;
 
+  console.log("리셋이 됨.")
   //게임 시작 신호 보내기
   sendEvent(2, {timestamp : Date.now()});
 }
@@ -223,6 +224,7 @@ function gameLoop(currentTime) {
     gameover = true;
     score.setHighScore();
     setupGameReset();
+    sendEvent(3, {timestamp : 0, score : score.score});
   }
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
@@ -239,6 +241,7 @@ function gameLoop(currentTime) {
 
   if (gameover) {
     showGameOver();
+    
   }
 
   if (waitingToStart) {
