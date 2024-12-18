@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import stageModel from '../models/stage.models.js';
+import './redisConnect.js'
+import { SetValueFromRedis } from './redisConnect.js';
 
 let gameAssets = {};
 
@@ -38,6 +40,31 @@ export const loadGameAssets = async () => {
             readFileAsync('stage.json'),
             readFileAsync('item.json'),
             readFileAsync('item_unlock.json')
+        ]);
+
+        gameAssets = { stages, items, itemUnlocks };
+        // console.log(stages);
+        // stageModel.inputStage(stages);
+        // console.log(stagemodel.AllStage());
+        
+        
+        return gameAssets;
+    }
+    catch (err) {
+        throw new Error(`fail ${err}`);
+    }
+
+
+
+}
+
+//redis를 이용하여 불러오도록 연습하기
+export const loadGameAssetsFromRedis = async () => {
+    try {
+        const [stages, items, itemUnlocks] = await Promise.all([
+            SetValueFromRedis('stage'),
+            SetValueFromRedis('item'),
+            SetValueFromRedis('item_unlock')
         ]);
 
         gameAssets = { stages, items, itemUnlocks };
