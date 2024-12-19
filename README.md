@@ -40,10 +40,10 @@
 
 # 도전 기능
 
-1. [ ] 브로드캐스팅 기능
-2. [ ] 가장 높은 점수 record 관리
-3. [ ] 유저 정보 연결
-4. [ ] Redis 연동, 게임 정보 저장
+1. [x] 브로드캐스팅 기능
+2. [x] 가장 높은 점수 record 관리
+3. [x] 유저 정보 연결
+4. [x] Redis 연동, 게임 정보 저장
 
 ## 코드의 흐름
 
@@ -72,3 +72,28 @@ app.js(기본적으로 서버 코드가 있는 곳) => socket.js(서버를 붙�
 |gamestart.handler.js|게임 시작과 종료를 여기서 처리한다.|
 |stage.handler.js|스테이지 관련을 여기서 처리한다.|
 |update.handler.js|유저의 점수 관련, 그 외 유저와 관련된 걸 여기서 처리한다.|
+|handlerMapping.js|이벤트 핸들을 담고 있다.|
+|user.model.js|stage 정보 말고 user의 정보를 관리하며 유저를 추가하거나 랭킹 관리 등을 맡는다.|
+|redisConnect.js|redis에 연결되는 작업을 하고 서버가 시작할 때 테이블을 불러오는 작업을 한다. 나중에 여길 더 손 볼 수도 있다.|
+
+##### 클라이언트측 폴더
+
+|이름|파일의 기능|
+|----|----|
+|handler|서버와 통신할 handle들을 넣어 놓은 폴더, socket.js는 |
+|image|게임 내 에셋들을 담는 곳|
+
+
+
+##### 클라이언트 측 파일
+
+|이름|파일의 기능|
+|----|----|
+|clientMapping.js|handle을 담고 있음.|
+|change.handler.js|스테이지가 전환되는 함수(id 1)와 랭킹을 갱신하는 코드(id 2)를 가지고 있음.|
+|connect.handler.js|브로드캐스트 확인용(id 0), 게임 시작(id 101), 게임 종료(id 102)|
+|score.js|스코어를 관리한다. 현재는 게임이 시작될 때 index 쪽에서 생성되어 싱글톤으로 관리된다.|
+|index.js|게임의 핵심 파일, 이 안에서 게임루프가 돌아간다.|
+|Cactus.js, Ground.js, Item.js,Player.js|게임 로직, 손은 거의 안 댔다.|
+
+

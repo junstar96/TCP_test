@@ -3,7 +3,7 @@ import { handlerMappings } from './handler/clientMapping.js'
 import {score} from './index.js'
 
 //도메인을 안 하면 ES2의 public id를 적으면 된다.
-const socket = io('http://localhost:3000', {
+const socket = io('3.38.92.164:3000', {
   query: {
     clientVersion: CLIENT_VERSION,
   },
